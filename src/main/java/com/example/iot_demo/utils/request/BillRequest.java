@@ -12,5 +12,5 @@ public class BillRequest {
     private Long id_user;
     private Double totalPrice;
     private boolean usePoint;
-    private List<Long> idProductList = new ArrayList<>();
+    private  List<ProductCustom> productCustomList = new ArrayList<>();
 }

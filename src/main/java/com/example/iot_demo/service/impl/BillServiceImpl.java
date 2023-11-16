@@ -7,7 +7,9 @@ import com.example.iot_demo.repository.BillRepository;
 import com.example.iot_demo.repository.ProductRepository;
 import com.example.iot_demo.repository.UserRepository;
 import com.example.iot_demo.service.BillService;
+import com.example.iot_demo.service.ProductService;
 import com.example.iot_demo.utils.request.BillRequest;
+import com.example.iot_demo.utils.request.ProductCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.iot_demo.service.UserService;
@@ -22,6 +24,7 @@ public class BillServiceImpl implements BillService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final UserService userService;
+    private final ProductService productService;
     @Override
     public String createdBill(BillRequest dto, Long id_user) {
         Bill bill = new Bill();
@@ -34,13 +37,14 @@ public class BillServiceImpl implements BillService {
         }
         bill.setCreated(created);
 
-
-        List<Long> idProductList = dto.getIdProductList();
-        for(Long id : idProductList){
-            Product p = productRepository.findProductById(id);
-            bill.addProduct(p);
-            p.addBill(bill);
+        List<ProductCustom> productCustomList = dto.getProductCustomList();
+        for(ProductCustom p : productCustomList){
+            Product product = productRepository.findProductById(p.getId());
+            productService.updateQuantity(p.getId(),p.getQuantity());
+            bill.addProduct(product);
+            product.addBill(bill);
         }
+
         User user = userRepository.findUserById(id_user);
         user.addBill(bill);
 
