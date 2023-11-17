@@ -33,11 +33,11 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(userRequest.getName());
         user.setPhone(userRequest.getPhone());
-        user.setPoint(userRequest.getPoint());
+        user.setPoint(Double.valueOf(0));
         if(userRequest.getUid() != null){
             RFID rfid = rfidRepository.searchRFIDByUid(userRequest.getUid());
             user.setRfid(rfid);
-            rfidService.updateAction(rfid.getId());
+            rfidService.updateAction(rfid.getId(), user);
         }
         return mapper.userToUserResponse(userRepository.save(user));
     }

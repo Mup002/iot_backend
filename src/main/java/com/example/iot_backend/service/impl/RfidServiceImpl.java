@@ -1,6 +1,7 @@
 package com.example.iot_backend.service.impl;
 
 import com.example.iot_backend.entity.RFID;
+import com.example.iot_backend.entity.User;
 import com.example.iot_backend.repository.RFIDRepository;
 import com.example.iot_backend.service.RfidService;
 import com.example.iot_backend.utils.mapper;
@@ -17,10 +18,11 @@ import java.util.List;
 public class RfidServiceImpl implements RfidService {
     private final RFIDRepository rfidRepository;
     @Override
-    public String updateAction(Long id) {
+    public String updateAction(Long id, User user) {
         RFID rfid = rfidRepository.searchRFIDById(id);
         if(rfid.isAction() == false){
             rfid.setAction(true);
+            rfid.setUser(user);
         }
         return "done";
     }
