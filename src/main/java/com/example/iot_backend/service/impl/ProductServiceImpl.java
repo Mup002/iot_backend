@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -27,5 +28,11 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(product.getQuantity() - quantity);
         productRepository.save(product);
         return "done";
+    }
+
+    @Override
+    public Optional<ProductResponse> getProduct(Long id) {
+        Product product = productRepository.findProductById(id);
+        return Optional.of(mapper.productToProductResponse(product));
     }
 }
