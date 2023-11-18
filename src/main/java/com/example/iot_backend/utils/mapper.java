@@ -18,7 +18,7 @@ public class mapper {
         UserResponse userResponse = new UserResponse();
         userResponse.setName(user.getName());
         userResponse.setPhone(user.getPhone());
-        userResponse.setPhone(user.getPhone());
+        userResponse.setPoint(Double.valueOf(user.getPoint()));
         if(user.getRfid() != null){
             userResponse.setUid(user.getRfid().getUid());
         }else{

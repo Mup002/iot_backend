@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UserResponse {
     private String phone;
-    private Long point;
+    private Double point;
     private String name;
     private String uid;
 }
