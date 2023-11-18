@@ -16,6 +16,7 @@ import java.util.List;
 public class mapper {
     public static UserResponse userToUserResponse(User user){
         UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
         userResponse.setName(user.getName());
         userResponse.setPhone(user.getPhone());
         userResponse.setPoint(Double.valueOf(user.getPoint()));
