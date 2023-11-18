@@ -58,6 +58,7 @@ public class BillServiceImpl implements BillService {
                 bill.setTotalPrice(dto.getTotalPrice() - currentPoint);
                 currentPoint = (double) 0;
             }else{
+                bill.setTotalPrice(dto.getTotalPrice());
                 currentPoint  += dto.getTotalPrice() / 100;
             }
         }
