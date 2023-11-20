@@ -10,6 +10,6 @@
 
 FROM openjdk:17-alpine
 VOLUME /tmp
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY target/iot_backend-0.0.1-SNAPSHOT.jar iot_backend.jar
+ENTRYPOINT ["java","-jar","/iot_backend.jar"]
 EXPOSE 8080
