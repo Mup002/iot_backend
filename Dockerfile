@@ -1,7 +1,7 @@
 #
 # Build stage
 #
-FROM maven:3.8.5-opnejdk-17 AS build
+FROM maven:3.8.8-opnejdk-17 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
