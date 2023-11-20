@@ -2,7 +2,7 @@
 # Build stage
 #
 FROM openjdk:17-alpine AS build
-#RUN apt-get update && apt-get install -y maven
+RUN apt-get update && apt-get install -y maven
 COPY . .
 RUN mvn clean package -DskipTests
 #
