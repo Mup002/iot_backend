@@ -40,9 +40,17 @@ public class RfidServiceImpl implements RfidService {
     }
 
     @Override
-    public String chageStatus(String uid) {
+    public String changeStatus(String uid) {
         RFID rfid = rfidRepository.searchRFIDByUid(uid);
         rfid.setCurrentStatus(true);
+        rfidRepository.save(rfid);
+        return "done";
+    }
+
+    @Override
+    public String offStatus(String uid) {
+        RFID rfid = rfidRepository.searchRFIDByUid(uid);
+        rfid.setCurrentStatus(false);
         rfidRepository.save(rfid);
         return "done";
     }

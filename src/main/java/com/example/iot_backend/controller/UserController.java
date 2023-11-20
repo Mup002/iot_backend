@@ -29,4 +29,9 @@ public class UserController {
         List<UserResponse> userResponses = userService.getAllUser();
         return new ResponseEntity<>(userResponses, HttpStatus.OK);
     }
+    @GetMapping("/current")
+    public ResponseEntity<UserResponse> current(){
+        UserResponse userResponse = userService.getUserCurrent();
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
 }

@@ -24,7 +24,7 @@ public class RfidController {
     @PostMapping("/change")
     public String changeStatus(@RequestBody Map<String, String> payload){
         String uid = payload.get("uid");
-        String change = rfidService.chageStatus(uid);
+        String change = rfidService.changeStatus(uid);
         return "done";
 
     }

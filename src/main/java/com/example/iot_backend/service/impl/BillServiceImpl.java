@@ -8,6 +8,7 @@ import com.example.iot_backend.repository.ProductRepository;
 import com.example.iot_backend.repository.UserRepository;
 import com.example.iot_backend.service.BillService;
 import com.example.iot_backend.service.ProductService;
+import com.example.iot_backend.service.RfidService;
 import com.example.iot_backend.utils.request.BillRequest;
 import com.example.iot_backend.utils.request.ProductCustom;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class BillServiceImpl implements BillService {
     private final ProductRepository productRepository;
     private final UserService userService;
     private final ProductService productService;
+    private final RfidService rfidService;
     @Override
     public String createdBill(BillRequest dto, Long id_user) {
         Bill bill = new Bill();
@@ -47,6 +49,7 @@ public class BillServiceImpl implements BillService {
         }
 
         User user = userRepository.findUserById(id_user);
+        rfidService.offStatus(user.getRfid().getUid());
         user.addBill(bill);
 
         Double currentPoint = Double.valueOf(user.getPoint());

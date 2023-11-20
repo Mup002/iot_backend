@@ -15,4 +15,5 @@ public interface UserService {
     Optional<UserResponse> getUserById(Long id);
     String updatePoint(User user, Double point);
 
+    UserResponse getUserCurrent();
 }

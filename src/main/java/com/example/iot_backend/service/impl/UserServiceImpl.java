@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RFIDRepository rfidRepository;
     private final RfidService rfidService;
+
     @Override
     public List<UserResponse> getAllUser() {
         return mapper.userToUserResponseList(StreamSupport.stream(userRepository.findAll().spliterator(),false).collect(Collectors.toList()));
@@ -51,6 +53,26 @@ public class UserServiceImpl implements UserService {
     public String updatePoint(User user, Double point) {
         user.setPoint(point);
         return "done";
+    }
+
+    @Override
+    public UserResponse getUserCurrent() {
+        User result = new User();
+        List<RFID> listRfid = rfidRepository.findAll();
+        List<User> userList = userRepository.findAll();
+        for(RFID rfid : listRfid){
+            if(rfid.isCurrentStatus() == true){
+                for(User user : userList){
+                    if(!Objects.isNull(user.getRfid())){
+                        if(rfid.getId() == user.getRfid().getId()){
+                            result = user;
+                        }
+                    }
+
+                }
+            }
+        }
+        return mapper.userToUserResponse(result);
     }
 
 
