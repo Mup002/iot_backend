@@ -12,4 +12,5 @@ public interface RfidService {
     String updateAction(Long id, User user);
     List<RfidResponse> getCardIsntAction();
 
+    String chageStatus(String uid);
 }

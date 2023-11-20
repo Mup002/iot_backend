@@ -38,4 +38,12 @@ public class RfidServiceImpl implements RfidService {
         }
         return mapper.rfidResponses(isnt);
     }
+
+    @Override
+    public String chageStatus(String uid) {
+        RFID rfid = rfidRepository.searchRFIDByUid(uid);
+        rfid.setCurrentStatus(true);
+        rfidRepository.save(rfid);
+        return "done";
+    }
 }

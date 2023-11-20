@@ -17,9 +17,11 @@ public class RFID {
 
     private boolean isAction ;
 
+    private boolean currentStatus;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user")
     private User user;
-
-
+    public RFID (){
+        this.currentStatus = false;
+    }
 }

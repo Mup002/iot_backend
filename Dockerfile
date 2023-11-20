@@ -9,8 +9,3 @@ COPY --from=build /target/iot_backend-0.0.1-SNAPSHOT.jar iot_backend.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","demo.jar"]
 
-#FROM openjdk:17-alpine
-#VOLUME /tmp
-#COPY target/iot_backend-0.0.1-SNAPSHOT.jar iot_backend.jar
-#ENTRYPOINT ["java","-jar","/iot_backend.jar"]
-#EXPOSE 8080
