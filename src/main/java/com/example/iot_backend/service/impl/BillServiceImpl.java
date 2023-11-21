@@ -9,6 +9,7 @@ import com.example.iot_backend.repository.UserRepository;
 import com.example.iot_backend.service.BillService;
 import com.example.iot_backend.service.ProductService;
 import com.example.iot_backend.service.RfidService;
+import com.example.iot_backend.utils.request.BillCustom;
 import com.example.iot_backend.utils.request.BillRequest;
 import com.example.iot_backend.utils.request.ProductCustom;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +68,30 @@ public class BillServiceImpl implements BillService {
         }
         userService.updatePoint(user,currentPoint);
         bill.setUser(user);
+        billRepository.save(bill);
+        return "done";
+    }
+
+    @Override
+    public String createGuestBill(BillCustom dto) {
+        Bill bill = new Bill();
+        Date created = new Date();
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            created = dateFormat.parse(dto.getCreatedDate());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        bill.setCreated(created);
+
+        List<ProductCustom> productCustomList = dto.getProductCustomList();
+        for(ProductCustom p : productCustomList){
+            Product product = productRepository.findProductById(p.getId());
+            productService.updateQuantity(p.getId(),p.getQuantity());
+            bill.addProduct(product);
+            product.addBill(bill);
+        }
+        bill.setTotalPrice(dto.getTotalPrice());
         billRepository.save(bill);
         return "done";
     }

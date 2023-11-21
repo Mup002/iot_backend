@@ -1,6 +1,7 @@
 package com.example.iot_backend.controller;
 
 import com.example.iot_backend.service.BillService;
+import com.example.iot_backend.utils.request.BillCustom;
 import com.example.iot_backend.utils.request.BillRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,11 @@ public class BillController {
     @PostMapping("/create/{id_user}")
     public ResponseEntity<String> create(@RequestBody BillRequest dto,@PathVariable("id_user") Long id_user){
         String  response = billService.createdBill(dto, id_user);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @PostMapping("/create")
+    public ResponseEntity<String> createBill(@RequestBody BillCustom dto){
+        String response = billService.createGuestBill(dto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
