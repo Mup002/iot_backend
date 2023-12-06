@@ -1,6 +1,7 @@
 package com.example.iot_backend.service;
 
 
+import com.example.iot_backend.utils.response.ProductCustomResponse;
 import com.example.iot_backend.utils.response.ProductResponse;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +15,5 @@ public interface ProductService {
     String updateQuantity(Long id_product, Long quantity);
 
     Optional<ProductResponse> getProduct(Long id);
+    List<ProductCustomResponse> getProductSold(String saleDate);
 }

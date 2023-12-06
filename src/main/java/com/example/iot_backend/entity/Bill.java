@@ -22,19 +22,16 @@ public class Bill {
     @Column(name = "total_price")
     private Double totalPrice;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch =  FetchType.LAZY)
-    @JoinTable(
-            name = "bill_product",
-            joinColumns = @JoinColumn(name = "id_bill"),
-            inverseJoinColumns = @JoinColumn(name = "id_product")
-    )
-    private List<Product> products = new ArrayList<>();
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    private Double pointUsed;
+    private Double pointSaved;
+    @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
 
-    public void addProduct(Product product){
-        products.add(product);
+    @OneToMany(mappedBy = "bill" ,cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<BillDetails> billList = new ArrayList<>();
+    public void addBillDetails(BillDetails bill){
+        billList.add(bill);
+        bill.setBill(this);
     }
 }

@@ -24,11 +24,11 @@ public class User {
     @Column(name = "name_user")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id_rfid")
     private RFID rfid;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Bill> billList = new ArrayList<>();
 
     public void addBill(Bill bill){

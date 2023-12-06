@@ -2,14 +2,12 @@ package com.example.iot_backend.utils;
 
 
 
-import com.example.iot_backend.entity.Product;
-import com.example.iot_backend.entity.RFID;
-import com.example.iot_backend.entity.User;
-import com.example.iot_backend.utils.response.ProductResponse;
-import com.example.iot_backend.utils.response.RfidResponse;
-import com.example.iot_backend.utils.response.UserResponse;
+import com.example.iot_backend.entity.*;
+import com.example.iot_backend.utils.response.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -66,5 +64,42 @@ public class mapper {
             list.add(mapper.rfidToRfidResponse(r));
         }
         return list;
+    }
+
+    public static BillResponse billToBillResponse(Bill bill){
+        BillResponse response = new BillResponse();
+        response.setId(bill.getId());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(bill.getCreated());
+        response.setCreatedDate(formattedDate);
+        response.setTotalPrice(bill.getTotalPrice());
+        response.setUsedPoint(bill.getPointUsed());
+        response.setSavedPoint(bill.getPointSaved());
+        response.setUsername(bill.getUser().getName());
+        return response;
+    }
+
+    public static List<BillResponse> billToBillResponseList(List<Bill> billList){
+        List<BillResponse> billResponses = new ArrayList<>();
+        for(Bill bill : billList){
+            billResponses.add(mapper.billToBillResponse(bill));
+        }
+        return billResponses;
+    }
+
+    public static BillDetailResponse billDetailResponse(BillDetails billDetails){
+        BillDetailResponse billDetailResponse = new BillDetailResponse();
+        billDetailResponse.setProduct_name(billDetails.getProduct_name());
+        billDetailResponse.setQuantity_sold(billDetails.getQuantity_sold());
+        billDetailResponse.setId_bill(billDetails.getBill().getId());
+        billDetailResponse.setId_product(billDetails.getProduct().getId());
+        return billDetailResponse;
+    }
+    public static List<BillDetailResponse> billDetailResponseList(List<BillDetails> billDetails){
+        List<BillDetailResponse> billDetailResponseList = new ArrayList<>();
+        for(BillDetails bill : billDetails){
+            billDetailResponseList.add(mapper.billDetailResponse(bill));
+        }
+        return billDetailResponseList;
     }
 }

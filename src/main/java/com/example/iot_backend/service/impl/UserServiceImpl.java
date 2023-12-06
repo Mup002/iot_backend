@@ -3,15 +3,19 @@ package com.example.iot_backend.service.impl;
 
 import com.example.iot_backend.entity.RFID;
 import com.example.iot_backend.entity.User;
+import com.example.iot_backend.repository.BillDetailRepository;
 import com.example.iot_backend.repository.RFIDRepository;
 import com.example.iot_backend.repository.UserRepository;
+import com.example.iot_backend.service.BillService;
 import com.example.iot_backend.service.RfidService;
 import com.example.iot_backend.utils.mapper;
 import com.example.iot_backend.utils.request.UserRequest;
+import com.example.iot_backend.utils.response.BillResponse;
 import com.example.iot_backend.utils.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,11 +49,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponse> getUserById(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
     public String updatePoint(User user, Double point) {
         user.setPoint(point);
         return "done";
@@ -74,6 +73,17 @@ public class UserServiceImpl implements UserService {
         }
         return mapper.userToUserResponse(result);
     }
+
+    @Override
+    public List<UserResponse> findUsersByName(String name) {
+        return mapper.userToUserResponseList(userRepository.findUsersByName(name).stream().collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<UserResponse> findUsersByPhone(String phone) {
+        return mapper.userToUserResponseList(userRepository.findUsersByPhone(phone).stream().collect(Collectors.toList()));
+    }
+
 
 
 }

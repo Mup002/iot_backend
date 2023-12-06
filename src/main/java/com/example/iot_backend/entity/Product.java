@@ -24,14 +24,12 @@ public class Product {
     @Column(name = "quantity")
     private Long quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_category")
-    private Category category;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Bill> billList = new ArrayList<>();
-
-    public void addBill(Bill bill){
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    private List<Bill> billList = new ArrayList<>();
+//
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<BillDetails> billList = new ArrayList<>();
+    public void addBillDetails(BillDetails bill){
         billList.add(bill);
     }
 }

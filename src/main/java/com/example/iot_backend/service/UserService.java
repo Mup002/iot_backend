@@ -12,8 +12,9 @@ import java.util.Optional;
 public interface UserService {
     List<UserResponse> getAllUser();
     UserResponse addNewUser(UserRequest userRequest);
-    Optional<UserResponse> getUserById(Long id);
     String updatePoint(User user, Double point);
-
     UserResponse getUserCurrent();
+    List<UserResponse> findUsersByName(String name);
+    List<UserResponse> findUsersByPhone(String phone);
+
 }
