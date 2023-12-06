@@ -155,9 +155,16 @@ public class BillServiceImpl implements BillService {
     public List<UserResponse> getUsersByDateOfBill(String date1, String date2) {
         List<BillResponse> billResponses = findByDate(date1, date2);
         List<UserResponse> result = new ArrayList<>();
+        Set<Long> set = new HashSet<>();
         for(BillResponse b : billResponses){
             User user = userRepository.findUserByName(b.getUsername());
-            result.add(mapper.userToUserResponse(user));
+            if(set.isEmpty()){
+                set.add(user.getId());
+                result.add(mapper.userToUserResponse(user));
+            }else if(!set.contains(user.getId())){
+                result.add(mapper.userToUserResponse(user));
+            }
+
         }
         return result;
     }
