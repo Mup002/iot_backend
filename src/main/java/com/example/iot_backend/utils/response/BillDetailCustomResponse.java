@@ -8,4 +8,5 @@ public class BillDetailCustomResponse {
     private String product_name;
     private Long quantity_sold;
     private Long quantity_remain;
+    private Double price_sold;
 }

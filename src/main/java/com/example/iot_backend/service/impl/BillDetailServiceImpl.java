@@ -59,6 +59,7 @@ public class BillDetailServiceImpl implements BillDetailService {
             customResponse.setQuantity_sold(entry.getValue());
             customResponse.setId_product(product.getId());
             customResponse.setQuantity_remain(product.getQuantity());
+            customResponse.setPrice_sold(product.getPrice() * Double.valueOf(entry.getValue()));
             billDetailCustomResponses.add(customResponse);
         }
         return billDetailCustomResponses;
