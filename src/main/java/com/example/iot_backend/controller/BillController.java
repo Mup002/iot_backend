@@ -52,9 +52,21 @@ public class BillController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("getBillDetailByDate/{date1}/to/{date2}")
+    @GetMapping("/getBillDetailByDate/{date1}/to/{date2}")
     public ResponseEntity<List<BillDetailCustomResponse>> getBillDetails(@PathVariable("date1") String date1, @PathVariable("date2") String date2){
         List<BillDetailCustomResponse> list = billDetailService.getAllproductSoldlByDate(date1, date2);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllBillOfUserBy/{userid}")
+    public ResponseEntity<List<BillResponse>> getAllBillOfUser(@PathVariable("userid") Long userid){
+        List<BillResponse> billResponses = billService.getAllBillOfUserByUserId(userid);
+        return new ResponseEntity<>(billResponses, HttpStatus.OK);
+    }
+
+    @GetMapping("/getBillsOfUserByUserIdInRange/{userid}/in/{date1}/to/{date2}")
+    public ResponseEntity<List<BillResponse>> getBillsOfUserInRange(@PathVariable("userid") Long userid, @PathVariable("date1") String date1, @PathVariable("date2") String date2){
+        List<BillResponse> billResponses = billService.getBillsOfUserByUserIdInRange(userid, date1, date2);
+        return new ResponseEntity<>(billResponses, HttpStatus.OK);
     }
 }

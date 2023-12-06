@@ -227,4 +227,47 @@ public class BillServiceImpl implements BillService {
         return result;
     }
 
+    @Override
+    public List<UserResponse> getUsersByPhoneAndName(String name, String phone) {
+        List<UserResponse> result = new ArrayList<>();
+        List<UserResponse> userResponses = userService.getAllUser();
+        String normalizeInput1 = phone.trim().replaceAll("\\s+", " ");
+        String normalizeInput2 = StringUtils.stripAccents(name.toLowerCase().trim().replaceAll("\\s+", " "));
+        Set<Long> userId = new HashSet<>();
+        for(UserResponse b : userResponses){
+            User user = userRepository.findUserByName(b.getName());
+            if(user.getPhone().contains(normalizeInput1) && user.getName().contains(normalizeInput2)){
+                if(userId.isEmpty()){
+                    userId.add(user.getId());
+                    result.add(mapper.userToUserResponse(user));
+                }else if(!userId.contains(user.getId())){
+                    userId.add(user.getId());
+                    result.add(mapper.userToUserResponse(user));
+                }
+
+            }
+        }
+        return result;
+
+    }
+
+    @Override
+    public List<BillResponse> getAllBillOfUserByUserId(Long usedId) {
+        return mapper.billToBillResponseList(billRepository.findBillByUserId(usedId).stream().collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<BillResponse> getBillsOfUserByUserIdInRange( Long userid ,String date1, String date2) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date datequery1 = new Date();
+        Date datequery2 = new Date();
+        try{
+            datequery1 = format.parse(date1);
+            datequery2 = format.parse(date2);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return mapper.billToBillResponseList(billRepository.findBillByDateRangeAndByUserId(userid,datequery1,datequery2));
+    }
+
 }

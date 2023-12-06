@@ -73,4 +73,10 @@ public class UserController {
         List<UserResponse> userResponses = billService.getUsersByPhoneAndNameInRange(date1, date2,name, phone);
         return new ResponseEntity<>(userResponses, HttpStatus.OK);
     }
+
+    @GetMapping("/findUsersByNamePhone/by/{name}/and/{phone}")
+    public ResponseEntity<List<UserResponse>> findUsersByNamePhone(String date2, @PathVariable("name") String name, @PathVariable("phone") String phone){
+        List<UserResponse> userResponses = billService.getUsersByPhoneAndName(name, phone);
+        return new ResponseEntity<>(userResponses, HttpStatus.OK);
+    }
 }

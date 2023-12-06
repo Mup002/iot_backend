@@ -22,4 +22,7 @@ public interface BillService {
     List<UserResponse> getUsersByNameInRange(String date1, String date2, String name);
     List<UserResponse> getUsersByPhoneInRange(String date1, String date2, String phone);
     List<UserResponse> getUsersByPhoneAndNameInRange(String date1, String date2, String name, String phone);
+    List<UserResponse> getUsersByPhoneAndName(String name, String phone);
+    List<BillResponse> getAllBillOfUserByUserId(Long usedId);
+    List<BillResponse> getBillsOfUserByUserIdInRange(Long userid , String date1, String date2);
 }
