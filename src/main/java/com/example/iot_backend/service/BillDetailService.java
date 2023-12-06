@@ -14,4 +14,5 @@ public interface BillDetailService {
 
     List<BillDetailCustomResponse> getProductsByNameInRange(String date1, String date2, String name);
 
+    List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill);
 }

@@ -3,15 +3,18 @@ package com.example.iot_backend.utils;
 
 
 import com.example.iot_backend.entity.*;
+import com.example.iot_backend.repository.ProductRepository;
 import com.example.iot_backend.utils.response.*;
+import lombok.RequiredArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+@RequiredArgsConstructor
 public class mapper {
+    private final ProductRepository productRepository;
     public static UserResponse userToUserResponse(User user){
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
@@ -93,6 +96,8 @@ public class mapper {
         billDetailResponse.setQuantity_sold(billDetails.getQuantity_sold());
         billDetailResponse.setId_bill(billDetails.getBill().getId());
         billDetailResponse.setId_product(billDetails.getProduct().getId());
+        billDetailResponse.setPrice_unit(billDetails.getPrice_unit());
+        billDetailResponse.setPrice_sold(billDetails.getPrice_sold());
         return billDetailResponse;
     }
     public static List<BillDetailResponse> billDetailResponseList(List<BillDetails> billDetails){

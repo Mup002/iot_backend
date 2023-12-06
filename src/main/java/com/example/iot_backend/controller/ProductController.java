@@ -4,6 +4,7 @@ import com.example.iot_backend.service.BillDetailService;
 import com.example.iot_backend.service.BillService;
 import com.example.iot_backend.service.ProductService;
 import com.example.iot_backend.utils.response.BillDetailCustomResponse;
+import com.example.iot_backend.utils.response.BillDetailResponse;
 import com.example.iot_backend.utils.response.ProductCustomResponse;
 import com.example.iot_backend.utils.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
@@ -60,4 +61,6 @@ public class ProductController {
         List<BillDetailCustomResponse> billDetailCustomResponseList = billDetailService.getProductsByNameInRange(date1,date2,name);
         return new ResponseEntity<>(billDetailCustomResponseList, HttpStatus.OK);
     }
+
+
 }

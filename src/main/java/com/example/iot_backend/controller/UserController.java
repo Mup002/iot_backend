@@ -1,8 +1,10 @@
 package com.example.iot_backend.controller;
 
 
+import com.example.iot_backend.service.BillDetailService;
 import com.example.iot_backend.service.BillService;
 import com.example.iot_backend.utils.request.UserRequest;
+import com.example.iot_backend.utils.response.BillDetailResponse;
 import com.example.iot_backend.utils.response.UserResponse;
 import com.example.iot_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class UserController {
     @Autowired
     private final UserService userService;
     private final BillService billService;
+    private final BillDetailService billDetailService;
     @PostMapping("/create")
     public ResponseEntity<UserResponse> create(@RequestBody UserRequest dto){
         UserResponse userResponse = userService.addNewUser(dto);
@@ -78,5 +81,11 @@ public class UserController {
     public ResponseEntity<List<UserResponse>> findUsersByNamePhone(String date2, @PathVariable("name") String name, @PathVariable("phone") String phone){
         List<UserResponse> userResponses = billService.getUsersByPhoneAndName(name, phone);
         return new ResponseEntity<>(userResponses, HttpStatus.OK);
+    }
+
+    @GetMapping("/getDetailBillOfUserByIdBill/{idbill}")
+    public ResponseEntity<List<BillDetailResponse>> getDetail(@PathVariable("idbill") Long idbill){
+        List<BillDetailResponse> billDetailResponseList = billDetailService.getDetailBillOfUserByIdBill(idbill);
+        return new ResponseEntity<>(billDetailResponseList,HttpStatus.OK);
     }
 }

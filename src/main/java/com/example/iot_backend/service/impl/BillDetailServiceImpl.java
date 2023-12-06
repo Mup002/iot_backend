@@ -90,4 +90,9 @@ public class BillDetailServiceImpl implements BillDetailService {
         }
         return result;
     }
+
+    @Override
+    public List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill) {
+        return mapper.billDetailResponseList(billDetailRepository.findBillDetailsByBillId(idbill).stream().collect(Collectors.toList()));
+    }
 }

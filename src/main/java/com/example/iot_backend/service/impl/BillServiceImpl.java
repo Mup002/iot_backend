@@ -87,6 +87,8 @@ public class BillServiceImpl implements BillService {
             productService.updateQuantity(p.getId(),p.getQuantity());
             billDetails.setProduct_name(product.getName());
             billDetails.setQuantity_sold(p.getQuantity());
+            billDetails.setPrice_unit(product.getPrice());
+            billDetails.setPrice_sold(Double.valueOf(p.getQuantity()) * product.getPrice());
 //            billDetails.setPointUse(usedPoint);
             product.addBillDetails(billDetails);
             bill.addBillDetails(billDetails);
