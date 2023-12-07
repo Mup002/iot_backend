@@ -15,5 +15,5 @@ public interface ProductService {
     String updateQuantity(Long id_product, Long quantity);
 
     Optional<ProductResponse> getProduct(Long id);
-    List<ProductCustomResponse> getProductSold(String saleDate);
+
 }

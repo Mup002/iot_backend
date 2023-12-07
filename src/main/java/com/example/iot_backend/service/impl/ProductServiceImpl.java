@@ -43,9 +43,7 @@ public class ProductServiceImpl implements ProductService {
         return Optional.of(mapper.productToProductResponse(product));
     }
 
-    @Override
-    public List<ProductCustomResponse> getProductSold(String saleDate) {
 
-        return null;
-    }
+
+
 }

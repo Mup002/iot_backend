@@ -2,6 +2,7 @@ package com.example.iot_backend.service;
 
 import com.example.iot_backend.utils.response.BillDetailCustomResponse;
 import com.example.iot_backend.utils.response.BillDetailResponse;
+import com.example.iot_backend.utils.response.ProductResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface BillDetailService {
     List<BillDetailCustomResponse> getProductsByNameInRange(String date1, String date2, String name);
 
     List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill);
+    List<BillDetailCustomResponse> getProductSoldByName(String name);
+    BillDetailCustomResponse getProductSoldById(Long id);
 }

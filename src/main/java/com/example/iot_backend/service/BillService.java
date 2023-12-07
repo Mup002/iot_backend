@@ -17,7 +17,7 @@ public interface BillService {
     String createGuestBill(BillCustom dto);
     List<BillResponse> findByDate(String date1, String date2);
     List<BillResponse> getAllBill();
-
+    BillResponse getBillById(Long idbill);
     List<UserResponse> getUsersByDateOfBill(String date1, String date2);
     List<UserResponse> getUsersByNameInRange(String date1, String date2, String name);
     List<UserResponse> getUsersByPhoneInRange(String date1, String date2, String phone);

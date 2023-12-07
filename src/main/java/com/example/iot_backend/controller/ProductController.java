@@ -40,10 +40,10 @@ public class ProductController {
         Optional<ProductResponse> productResponse = productService.getProduct(id);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
-    @GetMapping("/product-sales/{saleDate}")
-    public List<ProductCustomResponse> getProductSold(@PathVariable String saleDate) {
-        return productService.getProductSold(saleDate);
-    }
+//    @GetMapping("/product-sales/{saleDate}")
+//    public List<ProductCustomResponse> getProductSold(@PathVariable String saleDate) {
+//        return productService.getProductSold(saleDate);
+//    }
 
     @GetMapping("/getProductSoldByDate/{date1}/to/{date2}")
     public ResponseEntity<List<BillDetailCustomResponse>> getBillDetails(@PathVariable("date1") String date1, @PathVariable("date2") String date2){
@@ -57,10 +57,20 @@ public class ProductController {
         return new ResponseEntity<>(billDetailCustomResponse,HttpStatus.OK);
     }
     @GetMapping("/getProductByNameInRange/{date1}/to/{date2}/by/{name}")
-    public ResponseEntity<List<BillDetailCustomResponse>> getProductByName(@PathVariable("date1") String date1, @PathVariable("date2") String date2, @PathVariable("name") String name){
+    public ResponseEntity<List<BillDetailCustomResponse>> getProductByNameInRange(@PathVariable("date1") String date1, @PathVariable("date2") String date2, @PathVariable("name") String name){
         List<BillDetailCustomResponse> billDetailCustomResponseList = billDetailService.getProductsByNameInRange(date1,date2,name);
         return new ResponseEntity<>(billDetailCustomResponseList, HttpStatus.OK);
     }
 
+    @GetMapping("/getProductSoldByName/{name}")
+    public ResponseEntity<List<BillDetailCustomResponse>> getProductsByName( @PathVariable("name") String name){
+        List<BillDetailCustomResponse> billDetailCustomResponseList = billDetailService.getProductSoldByName(name);
+        return new ResponseEntity<>(billDetailCustomResponseList, HttpStatus.OK);
+    }
 
+    @GetMapping("/getProductSoldById/{id}")
+    public ResponseEntity<BillDetailCustomResponse> getProductById( @PathVariable("id") Long id){
+        BillDetailCustomResponse billDetailCustomResponse = billDetailService.getProductSoldById(id);
+        return new ResponseEntity<>(billDetailCustomResponse, HttpStatus.OK);
+    }
 }

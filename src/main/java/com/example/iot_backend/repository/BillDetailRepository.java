@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BillDetailRepository extends JpaRepository<BillDetails, Long> {
     List<BillDetails> findBillDetailsByBillId(Long idBill);
+    List<BillDetails> findBillDetailsByProductId(Long productId);
 }

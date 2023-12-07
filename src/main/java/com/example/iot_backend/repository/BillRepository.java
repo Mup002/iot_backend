@@ -16,6 +16,7 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     List<Bill> findBillsByDateRange(@Param("date1") Date date1, @Param("date2") Date date2);
 
     List<Bill> findBillByUserId(Long usedId);
+    Bill findBillById(Long idbill);
     @Query("SELECT b from Bill b Where b.user.id = :userid and b.created between :date1 and :date2")
     List<Bill> findBillByDateRangeAndByUserId(@Param("userid") Long userid ,@Param("date1") Date date1, @Param("date2") Date date2);
 }

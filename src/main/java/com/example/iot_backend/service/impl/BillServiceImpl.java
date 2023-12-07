@@ -152,6 +152,11 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
+    public BillResponse getBillById(Long idbill) {
+        return mapper.billToBillResponse(billRepository.findBillById(idbill));
+    }
+
+    @Override
     public List<UserResponse> getUsersByDateOfBill(String date1, String date2) {
         List<BillResponse> billResponses = findByDate(date1, date2);
         List<UserResponse> result = new ArrayList<>();

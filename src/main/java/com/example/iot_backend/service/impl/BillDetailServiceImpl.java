@@ -1,5 +1,6 @@
 package com.example.iot_backend.service.impl;
 
+import com.example.iot_backend.entity.BillDetails;
 import com.example.iot_backend.entity.Product;
 import com.example.iot_backend.repository.BillDetailRepository;
 import com.example.iot_backend.repository.ProductRepository;
@@ -13,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -64,7 +62,43 @@ public class BillDetailServiceImpl implements BillDetailService {
         }
         return billDetailCustomResponses;
     }
+    @Override
+    public List<BillDetailCustomResponse> getProductSoldByName(String name) {
+        List<BillResponse> billResponses = billService.getAllBill();
+        List<BillDetailResponse> billDetailResponseList = new ArrayList<>();
+        List<BillDetailCustomResponse> billDetailCustomResponses = new ArrayList<>();
 
+        Map<String, Long> mapProduct = new HashMap<>();
+        for(BillResponse billRespons : billResponses){
+            List<BillDetailResponse> result = getAllBillDetailByIdBill(billRespons.getId());
+            for(BillDetailResponse i : result){
+                billDetailResponseList.add(i);
+                if(mapProduct.isEmpty()){
+                    mapProduct.put(i.getProduct_name(),i.getQuantity_sold());
+                }else if(mapProduct.containsKey(i.getProduct_name())){
+                    Long currentQuantity = mapProduct.get(i.getProduct_name());
+                    currentQuantity += i.getQuantity_sold();
+                    mapProduct.put(i.getProduct_name(), currentQuantity);
+                }else if(!mapProduct.containsKey(i.getProduct_name())){
+                    mapProduct.put(i.getProduct_name(), i.getQuantity_sold());
+                }
+            }
+        }
+        String normalizedInput = StringUtils.stripAccents(name.toLowerCase().trim().replaceAll("\\s+", " "));
+        for (Map.Entry<String, Long> entry : mapProduct.entrySet()){
+            if(StringUtils.stripAccents(entry.getKey().toLowerCase()).contains(normalizedInput)){
+                BillDetailCustomResponse customResponse = new BillDetailCustomResponse();
+                Product product = productRepository.findProductByName(entry.getKey());
+                customResponse.setProduct_name(entry.getKey());
+                customResponse.setQuantity_sold(entry.getValue());
+                customResponse.setId_product(product.getId());
+                customResponse.setQuantity_remain(product.getQuantity());
+                customResponse.setPrice_sold(product.getPrice() * Double.valueOf(entry.getValue()));
+                billDetailCustomResponses.add(customResponse);
+            }
+        }
+        return billDetailCustomResponses;
+    }
     @Override
     public BillDetailCustomResponse getProductByIdInRange(String date1, String date2, Long id) {
         List<BillDetailCustomResponse> billDetailCustomResponseList = getAllproductSoldlByDate(date1,date2);
@@ -95,5 +129,27 @@ public class BillDetailServiceImpl implements BillDetailService {
     @Override
     public List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill) {
         return mapper.billDetailResponseList(billDetailRepository.findBillDetailsByBillId(idbill).stream().collect(Collectors.toList()));
+    }
+
+
+
+    @Override
+    public BillDetailCustomResponse getProductSoldById(Long id) {
+        List<BillDetails> billDetails = billDetailRepository.findBillDetailsByProductId(id);
+
+        Double priceSold = Double.valueOf(0) ;
+        Long quantitySold = Long.valueOf(0);
+        for(BillDetails b : billDetails){
+            priceSold += b.getPrice_sold();
+            quantitySold += b.getQuantity_sold();
+        }
+        Product product = productRepository.findProductById(id);
+        BillDetailCustomResponse billDetailCustomResponse = new BillDetailCustomResponse();
+        billDetailCustomResponse.setPrice_sold(priceSold);
+        billDetailCustomResponse.setQuantity_sold(quantitySold);
+        billDetailCustomResponse.setProduct_name(product.getName());
+        billDetailCustomResponse.setQuantity_remain(product.getQuantity());
+        billDetailCustomResponse.setId_product(product.getId());
+        return billDetailCustomResponse;
     }
 }
