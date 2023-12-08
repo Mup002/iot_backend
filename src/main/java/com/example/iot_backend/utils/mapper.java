@@ -6,11 +6,13 @@ import com.example.iot_backend.entity.*;
 import com.example.iot_backend.repository.ProductRepository;
 import com.example.iot_backend.utils.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.ObjectUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class mapper {
@@ -76,9 +78,15 @@ public class mapper {
         String formattedDate = dateFormat.format(bill.getCreated());
         response.setCreatedDate(formattedDate);
         response.setTotalPrice(bill.getTotalPrice());
-        response.setUsedPoint(bill.getPointUsed());
-        response.setSavedPoint(bill.getPointSaved());
-        response.setUsername(bill.getUser().getName());
+        if(!ObjectUtils.isEmpty(bill.getUser())){
+            response.setUsername(bill.getUser().getName());
+            response.setUsedPoint(bill.getPointUsed());
+            response.setSavedPoint(bill.getPointSaved());
+        }else{
+            response.setUsername("Guest");
+            response.setUsedPoint(Double.valueOf(0));
+            response.setSavedPoint(Double.valueOf(0));
+        }
         return response;
     }
 

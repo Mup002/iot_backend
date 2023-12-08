@@ -121,6 +121,8 @@ public class BillServiceImpl implements BillService {
             billDetails.setQuantity_sold(p.getQuantity());
             billDetails.setBill(bill);
             billDetails.setProduct(product);
+            billDetails.setPrice_unit(product.getPrice());
+            billDetails.setPrice_sold(product.getPrice() * Double.valueOf(p.getQuantity()));
             billDetailRepository.save(billDetails);
         }
         return "done";
@@ -162,13 +164,17 @@ public class BillServiceImpl implements BillService {
         List<UserResponse> result = new ArrayList<>();
         Set<Long> set = new HashSet<>();
         for(BillResponse b : billResponses){
-            User user = userRepository.findUserByName(b.getUsername());
-            if(set.isEmpty()){
-                set.add(user.getId());
-                result.add(mapper.userToUserResponse(user));
-            }else if(!set.contains(user.getId())){
-                result.add(mapper.userToUserResponse(user));
+            if(!b.getUsername().contains("Guest")){
+                User user = userRepository.findUserByName(b.getUsername());
+                if(set.isEmpty()){
+                    set.add(user.getId());
+                    result.add(mapper.userToUserResponse(user));
+                }else if(!set.contains(user.getId())){
+                    result.add(mapper.userToUserResponse(user));
+                }
             }
+
+
 
         }
         return result;
