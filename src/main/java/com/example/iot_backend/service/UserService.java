@@ -2,6 +2,7 @@ package com.example.iot_backend.service;
 
 import com.example.iot_backend.entity.User;
 import com.example.iot_backend.utils.request.UserRequest;
+import com.example.iot_backend.utils.response.UserDetailResponse;
 import com.example.iot_backend.utils.response.UserResponse;
 import org.springframework.stereotype.Service;
 

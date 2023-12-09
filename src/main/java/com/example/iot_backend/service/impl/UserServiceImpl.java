@@ -11,6 +11,8 @@ import com.example.iot_backend.service.RfidService;
 import com.example.iot_backend.utils.mapper;
 import com.example.iot_backend.utils.request.UserRequest;
 import com.example.iot_backend.utils.response.BillResponse;
+import com.example.iot_backend.utils.response.UserCustomResponse;
+import com.example.iot_backend.utils.response.UserDetailResponse;
 import com.example.iot_backend.utils.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -86,6 +88,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponse> findUserByProductSold(Long id) {
+//        List<UserResponse> userResponses = mapper.userToUserResponseList(userRepository.findUserSoldByProductId(id));
+//        for(UserResponse userResponse : userResponses){
+//            UserDetailResponse userDetailResponse = new UserDetailResponse();
+//            userDetailResponse.setId_user(userResponse.getId());
+//            userDetailResponse.setName(userResponses);
+//            userDetailResponse.setId_bill(userResponses.);
+//        }
+//
         return mapper.userToUserResponseList(userRepository.findUserSoldByProductId(id));
     }
 

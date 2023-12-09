@@ -1,8 +1,10 @@
 package com.example.iot_backend.service.impl;
 
+import com.example.iot_backend.entity.Bill;
 import com.example.iot_backend.entity.BillDetails;
 import com.example.iot_backend.entity.Product;
 import com.example.iot_backend.repository.BillDetailRepository;
+import com.example.iot_backend.repository.BillRepository;
 import com.example.iot_backend.repository.ProductRepository;
 import com.example.iot_backend.service.BillDetailService;
 import com.example.iot_backend.service.BillService;
@@ -10,9 +12,11 @@ import com.example.iot_backend.utils.mapper;
 import com.example.iot_backend.utils.response.BillDetailCustomResponse;
 import com.example.iot_backend.utils.response.BillDetailResponse;
 import com.example.iot_backend.utils.response.BillResponse;
+import com.example.iot_backend.utils.response.UserDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,6 +28,7 @@ public class BillDetailServiceImpl implements BillDetailService {
     private final BillDetailRepository billDetailRepository;
     private final BillService billService;
     private final ProductRepository productRepository;
+    private final BillRepository billRepository;
     @Override
     public List<BillDetailResponse> getAllBillDetailByIdBill(Long id_bill) {
         return mapper.billDetailResponseList(StreamSupport.stream(billDetailRepository.findBillDetailsByBillId(id_bill).spliterator(),false).collect(Collectors.toList()));
@@ -117,6 +122,34 @@ public class BillDetailServiceImpl implements BillDetailService {
         billDetailCustomResponse.setId_product(product.getId());
         return billDetailCustomResponse;
     }
+
+    @Override
+    public List<UserDetailResponse> getUserSoldProductByIdProduct(Long id) {
+        List<UserDetailResponse> result = new ArrayList<>();
+        List<BillDetails> billDetailsList = billDetailRepository.findBillDetailsByProductId(id);
+        Set<Long> userId = new HashSet<>();
+        for(BillDetails b : billDetailsList){
+
+//            if(userId.isEmpty()){
+//                userId.add(bill.getUser().getId());
+//
+//            }else if(!userId.contains(bill.getUser().getId())){
+//
+//            }
+            Bill bill = billRepository.findBillById(b.getBill().getId());
+            if(!ObjectUtils.isEmpty(bill.getUser())){
+                UserDetailResponse userDetailResponse = new UserDetailResponse();
+                userDetailResponse.setId_user(bill.getUser().getId());
+                userDetailResponse.setName(bill.getUser().getName());
+                userDetailResponse.setQuantity_product(b.getQuantity_sold());
+                userDetailResponse.setSale_date(bill.getCreated());
+                userDetailResponse.setId_bill(bill.getId());
+                result.add(userDetailResponse);
+            }
+        }
+        return result;
+    }
+
     @Override
     public List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill) {
         return mapper.billDetailResponseList(billDetailRepository.findBillDetailsByBillId(idbill).stream().collect(Collectors.toList()));

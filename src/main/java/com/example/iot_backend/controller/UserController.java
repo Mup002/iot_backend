@@ -5,6 +5,7 @@ import com.example.iot_backend.service.BillDetailService;
 import com.example.iot_backend.service.BillService;
 import com.example.iot_backend.utils.request.UserRequest;
 import com.example.iot_backend.utils.response.BillDetailResponse;
+import com.example.iot_backend.utils.response.UserDetailResponse;
 import com.example.iot_backend.utils.response.UserResponse;
 import com.example.iot_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -92,5 +93,11 @@ public class UserController {
     public ResponseEntity<List<UserResponse>> getUserByProductSold(@PathVariable("id")Long id){
         List<UserResponse> userResponses = userService.findUserByProductSold(id);
         return new ResponseEntity<>(userResponses,HttpStatus.OK);
+    }
+
+    @GetMapping("/getUserByProductSoldByIdProduct/{id}")
+    public ResponseEntity<List<UserDetailResponse>> getUserBill(@PathVariable("id") Long id){
+        List<UserDetailResponse> userDetailResponses= billDetailService.getUserSoldProductByIdProduct(id);
+        return new ResponseEntity<>(userDetailResponses, HttpStatus.OK);
     }
 }
