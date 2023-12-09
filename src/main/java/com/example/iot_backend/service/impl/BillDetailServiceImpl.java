@@ -140,18 +140,22 @@ public class BillDetailServiceImpl implements BillDetailService {
             if(!ObjectUtils.isEmpty(bill.getUser())){
                 UserDetailResponse userDetailResponse = new UserDetailResponse();
                 userDetailResponse.setId_user(String.valueOf(bill.getUser().getId()));
-                userDetailResponse.setName(bill.getUser().getName());
+                userDetailResponse.setUsername(bill.getUser().getName());
                 userDetailResponse.setQuantity_product(b.getQuantity_sold());
-                userDetailResponse.setSale_date(bill.getCreated());
+                userDetailResponse.setCreatedDate(bill.getCreated());
                 userDetailResponse.setId(bill.getId());
+                userDetailResponse.setTotalPrice(bill.getTotalPrice());
+                userDetailResponse.setUsedPoint(bill.getPointUsed());
                 result.add(userDetailResponse);
             }else{
                 UserDetailResponse userDetailResponse = new UserDetailResponse();
                 userDetailResponse.setId_user("Không có id");
-                userDetailResponse.setName("Guest");
+                userDetailResponse.setUsername("Guest");
                 userDetailResponse.setQuantity_product(b.getQuantity_sold());
-                userDetailResponse.setSale_date(bill.getCreated());
+                userDetailResponse.setCreatedDate(bill.getCreated());
                 userDetailResponse.setId(bill.getId());
+                userDetailResponse.setTotalPrice(bill.getTotalPrice());
+                userDetailResponse.setUsedPoint(Double.valueOf(0));
                 result.add(userDetailResponse);
             }
         }
