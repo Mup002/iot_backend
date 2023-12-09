@@ -28,7 +28,6 @@ public class BillDetailServiceImpl implements BillDetailService {
     public List<BillDetailResponse> getAllBillDetailByIdBill(Long id_bill) {
         return mapper.billDetailResponseList(StreamSupport.stream(billDetailRepository.findBillDetailsByBillId(id_bill).spliterator(),false).collect(Collectors.toList()));
     }
-
     @Override
     public List<BillDetailCustomResponse> getAllproductSoldlByDate(String date1, String date2) {
         List<BillResponse> billResponses = billService.findByDate(date1, date2);
@@ -100,6 +99,30 @@ public class BillDetailServiceImpl implements BillDetailService {
         return billDetailCustomResponses;
     }
     @Override
+    public BillDetailCustomResponse getProductSoldById(Long id) {
+        List<BillDetails> billDetails = billDetailRepository.findBillDetailsByProductId(id);
+
+        Double priceSold = Double.valueOf(0) ;
+        Long quantitySold = Long.valueOf(0);
+        for(BillDetails b : billDetails){
+            priceSold += b.getPrice_sold();
+            quantitySold += b.getQuantity_sold();
+        }
+        Product product = productRepository.findProductById(id);
+        BillDetailCustomResponse billDetailCustomResponse = new BillDetailCustomResponse();
+        billDetailCustomResponse.setPrice_sold(priceSold);
+        billDetailCustomResponse.setQuantity_sold(quantitySold);
+        billDetailCustomResponse.setProduct_name(product.getName());
+        billDetailCustomResponse.setQuantity_remain(product.getQuantity());
+        billDetailCustomResponse.setId_product(product.getId());
+        return billDetailCustomResponse;
+    }
+    @Override
+    public List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill) {
+        return mapper.billDetailResponseList(billDetailRepository.findBillDetailsByBillId(idbill).stream().collect(Collectors.toList()));
+    }
+
+    @Override
     public BillDetailCustomResponse getProductByIdInRange(String date1, String date2, Long id) {
         List<BillDetailCustomResponse> billDetailCustomResponseList = getAllproductSoldlByDate(date1,date2);
         BillDetailCustomResponse billDetailCustomResponse = new BillDetailCustomResponse();
@@ -126,30 +149,8 @@ public class BillDetailServiceImpl implements BillDetailService {
         return result;
     }
 
-    @Override
-    public List<BillDetailResponse> getDetailBillOfUserByIdBill(Long idbill) {
-        return mapper.billDetailResponseList(billDetailRepository.findBillDetailsByBillId(idbill).stream().collect(Collectors.toList()));
-    }
 
 
 
-    @Override
-    public BillDetailCustomResponse getProductSoldById(Long id) {
-        List<BillDetails> billDetails = billDetailRepository.findBillDetailsByProductId(id);
 
-        Double priceSold = Double.valueOf(0) ;
-        Long quantitySold = Long.valueOf(0);
-        for(BillDetails b : billDetails){
-            priceSold += b.getPrice_sold();
-            quantitySold += b.getQuantity_sold();
-        }
-        Product product = productRepository.findProductById(id);
-        BillDetailCustomResponse billDetailCustomResponse = new BillDetailCustomResponse();
-        billDetailCustomResponse.setPrice_sold(priceSold);
-        billDetailCustomResponse.setQuantity_sold(quantitySold);
-        billDetailCustomResponse.setProduct_name(product.getName());
-        billDetailCustomResponse.setQuantity_remain(product.getQuantity());
-        billDetailCustomResponse.setId_product(product.getId());
-        return billDetailCustomResponse;
-    }
 }

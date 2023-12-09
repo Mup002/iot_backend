@@ -84,6 +84,10 @@ public class UserServiceImpl implements UserService {
         return mapper.userToUserResponseList(userRepository.findUsersByPhone(phone).stream().collect(Collectors.toList()));
     }
 
+    @Override
+    public List<UserResponse> findUserByProductSold(Long id) {
+        return mapper.userToUserResponseList(userRepository.findUserSoldByProductId(id));
+    }
 
 
 }

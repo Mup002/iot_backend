@@ -16,5 +16,5 @@ public interface UserService {
     UserResponse getUserCurrent();
     List<UserResponse> findUsersByName(String name);
     List<UserResponse> findUsersByPhone(String phone);
-
+    List<UserResponse> findUserByProductSold(Long id);
 }

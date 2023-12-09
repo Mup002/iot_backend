@@ -28,5 +28,5 @@ public class BillDetails {
 
     private Double price_unit;
     private Double price_sold;
-//    private Double pointUse;
+
 }

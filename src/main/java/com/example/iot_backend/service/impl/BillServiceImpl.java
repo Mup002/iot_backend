@@ -179,6 +179,10 @@ public class BillServiceImpl implements BillService {
         }
         return result;
     }
+    @Override
+    public List<BillResponse> getAllBillOfUserByUserId(Long usedId) {
+        return mapper.billToBillResponseList(billRepository.findBillByUserId(usedId).stream().collect(Collectors.toList()));
+    }
 
     @Override
     public List<UserResponse> getUsersByNameInRange(String date1, String date2, String name) {
@@ -271,10 +275,7 @@ public class BillServiceImpl implements BillService {
 
     }
 
-    @Override
-    public List<BillResponse> getAllBillOfUserByUserId(Long usedId) {
-        return mapper.billToBillResponseList(billRepository.findBillByUserId(usedId).stream().collect(Collectors.toList()));
-    }
+
 
     @Override
     public List<BillResponse> getBillsOfUserByUserIdInRange( Long userid ,String date1, String date2) {

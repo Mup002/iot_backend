@@ -17,4 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByName(String name);
     User findUserByPhone(String phone);
 
+    @Query("SELECT DISTINCT u FROM User u " +
+            "JOIN u.billList b " +
+            "JOIN b.billList bd " +
+            "WHERE bd.product.id = :productId")
+    List<User> findUserSoldByProductId(@Param("productId") Long productId);
+
 }

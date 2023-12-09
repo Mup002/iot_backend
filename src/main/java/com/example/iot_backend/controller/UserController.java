@@ -88,4 +88,9 @@ public class UserController {
         List<BillDetailResponse> billDetailResponseList = billDetailService.getDetailBillOfUserByIdBill(idbill);
         return new ResponseEntity<>(billDetailResponseList,HttpStatus.OK);
     }
+    @GetMapping("/getUserByProductSoldId/{id}")
+    public ResponseEntity<List<UserResponse>> getUserByProductSold(@PathVariable("id")Long id){
+        List<UserResponse> userResponses = userService.findUserByProductSold(id);
+        return new ResponseEntity<>(userResponses,HttpStatus.OK);
+    }
 }
